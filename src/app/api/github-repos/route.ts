@@ -52,7 +52,7 @@ async function fetchWithFallbacks(username: string, maxRetries = 2, timeout = 50
             'User-Agent': 'next-personal-blog'
           },
           signal: controller.signal,
-          next: { revalidate: 3600 }, // 1小时缓存
+          next: { revalidate: 450 }, // 1小时缓存
         });
         
         clearTimeout(timeoutId);

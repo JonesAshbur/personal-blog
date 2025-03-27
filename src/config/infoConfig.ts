@@ -9,7 +9,7 @@ export * from './career'
 // personal info
 export const name = 'Kevin'
 export const headline = 'Welcome to my website.'
-export const introduction = 'I like coding, building interesting things and writing some tutorials that might be useful'
+export const introduction = 'I like coding, building interesting things and writing some tutorials that might be useful.'
 export const email = 'jonesashbur@gmail.com'
 export const githubUsername = 'jonesashbur'
 
