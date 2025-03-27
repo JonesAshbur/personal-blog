@@ -11,24 +11,32 @@ import { BlogType } from '@/lib/blogs'
 
 async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
   try {
-    // 确保在服务器端渲染时有一个有效的基础URL
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    // 在Vercel环境中处理URL
+    // 注意：在服务器组件中，我们应该使用绝对URL
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+    const host = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, '') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+    
+    // 添加日志以便调试
+    console.log('Fetching GitHub repos from:', `${baseUrl}/api/github-repos`);
     
     const res = await fetch(`${baseUrl}/api/github-repos`, {
       next: { revalidate: 3600 }, // 1小时缓存
     });
     
     if (!res.ok) {
-      throw new Error('Failed to fetch GitHub repos');
+      throw new Error(`Failed to fetch GitHub repos: ${res.status} ${res.statusText}`);
     }
     
     const data = await res.json();
     return { data, error: null };
   } catch (error) {
     console.error('Error fetching GitHub repos:', error);
-    return { data: [], error: '获取GitHub仓库失败，请稍后再试' };
+    // 返回静态数据作为备用方案，这样即使API调用失败，页面也能显示一些内容
+    return { 
+      data: [], 
+      error: '获取GitHub仓库失败，请稍后再试' 
+    };
   }
 }
 
