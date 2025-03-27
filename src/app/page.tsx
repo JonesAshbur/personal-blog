@@ -28,16 +28,22 @@ async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: strin
 }
 
 async function getBlogs(): Promise<BlogType[]> {
-  try {
-    // 在服务器端获取数据，相对路径
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blogs`, { cache: 'no-store' });
-    if (!res.ok) {
-      throw new Error('Failed to fetch blogs');
+  if (process.env.NODE_ENV === 'production') {
+    // 在生产环境中直接使用本地数据
+    const { getAllBlogs } = await import('@/lib/blogs');
+    return getAllBlogs();
+  } else {
+    // 在开发环境中使用API
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blogs`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch blogs');
+      }
+      return res.json();
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+      return [];
     }
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching blogs:', error);
-    return [];
   }
 }
 
