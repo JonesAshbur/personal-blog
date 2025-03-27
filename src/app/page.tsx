@@ -11,7 +11,7 @@ import { BlogType } from '@/lib/blogs'
 
 async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/github-repos`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://github.com/jonesashbur'}/api/github-repos`, {
       next: { revalidate: 3600 }, // 1小时缓存
     });
     
