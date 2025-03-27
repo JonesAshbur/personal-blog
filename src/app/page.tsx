@@ -11,8 +11,12 @@ import { BlogType } from '@/lib/blogs'
 
 async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
   try {
-    // Use relative URL for API calls - this works both locally and in production
-    const res = await fetch(`/api/github-repos`, {
+    // 确保在服务器端渲染时有一个有效的基础URL
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    
+    const res = await fetch(`${baseUrl}/api/github-repos`, {
       next: { revalidate: 3600 }, // 1小时缓存
     });
     
