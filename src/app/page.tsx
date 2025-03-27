@@ -11,7 +11,8 @@ import { BlogType } from '@/lib/blogs'
 
 async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://github.com/jonesashbur'}/api/github-repos`, {
+    // Use relative URL for API calls - this works both locally and in production
+    const res = await fetch(`/api/github-repos`, {
       next: { revalidate: 3600 }, // 1小时缓存
     });
     
@@ -28,23 +29,9 @@ async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: strin
 }
 
 async function getBlogs(): Promise<BlogType[]> {
-  if (process.env.NODE_ENV === 'production') {
-    // 在生产环境中直接使用本地数据
-    const { getAllBlogs } = await import('@/lib/blogs');
-    return getAllBlogs();
-  } else {
-    // 在开发环境中使用API
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blogs`);
-      if (!res.ok) {
-        throw new Error('Failed to fetch blogs');
-      }
-      return res.json();
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-      return [];
-    }
-  }
+  // 直接使用本地数据
+  const { getAllBlogs } = await import('@/lib/blogs');
+  return getAllBlogs();
 }
 
 export default async function Home() {
