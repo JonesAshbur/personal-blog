@@ -14,16 +14,16 @@ export const email = 'jonesashbur@gmail.com'
 export const githubUsername = 'jonesashbur'
 
 // about page
-export const aboutMeHeadline = "I'm Corey Chiu, a software engineer based in Shenzhen, China."
+export const aboutMeHeadline = "I'm Kevin, a student based in Tianjin, China."
 export const aboutParagraphs = [
-  "I love coding. I learned programming when I in college. I wrote my first program in Java when I was 18.",
-  "I have a lot of hobbies, such as travelling, photography, watching movies, music and so on.",
-  "I'm working as a software develop engineer in Shenzhen, China now. And I'm building a lot of side projects in my spare time."
+  "I love coding. I learned programming when I in college.",
+  "I have a lot of hobbies, such as travelling, photography, reading, football, climb mountain and so on.",
+  "I'm a big fan of AI and I'm trying to learn more about it.",
 ]
 
 
 // blog
-export const blogHeadLine = "What I've thinking about."
+export const blogHeadLine = "What I've writing about."
 export const blogIntro = "I've written something about AI, programming and life."
 
 
@@ -36,41 +36,13 @@ export type SocialLinkType = {
 }
 
 export const socialLinks: Array<SocialLinkType> = [
-  {
-    name: 'X',
-    icon: 'x',
-    href: 'https://x.com/realcoreychiu'
-  },
-  {
-    name: 'Bsky',
-    icon: 'bsky',
-    href: 'https://bsky.app/profile/coreychiu.com'
-  },
-  {
-    name: 'Jike',
-    icon: 'pill',
-    href: 'https://okjk.co/P7c1zU'
-  },
+ 
   {
     name: 'Github',
     icon: 'github',
     href: 'https://github.com/jonesashbur'
   },
-  {
-    name: 'Wechat',
-    icon: 'wechat',
-    href: 'https://mp.weixin.qq.com/s/DxnRgqNfgzXIhqj6w_x0dQ'
-  },
-  {
-    name: 'Discord',
-    icon: 'discord',
-    href: 'https://discord.gg/xTxRg3Ej'
-  },
-  {
-    name: 'Ko-fi',
-    icon: 'coffee',
-    href: 'https://ko-fi.com/coreychiu'
-  }
+
 ]
 
 // https://simpleicons.org/
