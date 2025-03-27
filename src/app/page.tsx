@@ -1,6 +1,6 @@
 import { Container } from '@/components/layout/Container'
 import SocialLinks from '@/components/home/SocialLinks'
-import { headline, introduction, githubProjects } from '@/config/infoConfig'
+import { headline, introduction } from '@/config/infoConfig'
 import { GithubProjectCard } from '@/components/project/GithubProjectCard'
 import { CustomIcon } from '@/components/shared/CustomIcon'
 import IconCloud from "@/components/ui/icon-cloud";
@@ -10,26 +10,20 @@ import { HomeBlogCard } from '@/components/home/HomeBlogCard'
 import { BlogType } from '@/lib/blogs'
 
 async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
-  if (process.env.NODE_ENV === 'production') {
-    // 在生产环境中直接使用本地数据
-    return { data: githubProjects, error: null };
-  } else {
-    // 在开发环境中使用API
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/github-repos`, {
-        next: { revalidate: 3600 }, // 1小时缓存
-      });
-      
-      if (!res.ok) {
-        throw new Error('Failed to fetch GitHub repos');
-      }
-      
-      const data = await res.json();
-      return { data, error: null };
-    } catch (error) {
-      console.error('Error fetching GitHub repos:', error);
-      return { data: [], error: '获取GitHub仓库失败，请稍后再试' };
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/github-repos`, {
+      next: { revalidate: 3600 }, // 1小时缓存
+    });
+    
+    if (!res.ok) {
+      throw new Error('Failed to fetch GitHub repos');
     }
+    
+    const data = await res.json();
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error fetching GitHub repos:', error);
+    return { data: [], error: '获取GitHub仓库失败，请稍后再试' };
   }
 }
 
