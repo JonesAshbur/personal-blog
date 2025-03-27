@@ -69,7 +69,7 @@ type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 const IconCloud = ({ iconSlugs }: DynamicCloudProps) => {
   const [data, setData] = useState<IconData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); 
   const [error, setError] = useState<string | null>(null);
   const { theme = "light", systemTheme } = useTheme();
   
@@ -84,12 +84,14 @@ const IconCloud = ({ iconSlugs }: DynamicCloudProps) => {
         const result = await fetchSimpleIcons({ slugs: iconSlugs });
         if (mounted) {
           setData(result);
-          setIsLoading(false);
         }
       } catch (err) {
         console.error('Failed to load icons:', err);
         if (mounted) {
           setError('Failed to load icons');
+        }
+      } finally {
+        if (mounted) {
           setIsLoading(false);
         }
       }
@@ -115,34 +117,8 @@ const IconCloud = ({ iconSlugs }: DynamicCloudProps) => {
     }
   }, [data, currentTheme]);
 
-  if (error || !renderedIcons) {
-    return (
-      <div className="flex flex-wrap gap-4 justify-center items-center py-8">
-        {iconSlugs.slice(0, 12).map((slug, i) => (
-          <div 
-            key={i} 
-            className="w-10 h-10 rounded-full bg-current opacity-20"
-            style={{ color: currentTheme === 'dark' ? '#fff' : '#000' }}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-wrap gap-4 justify-center items-center py-8">
-        {iconSlugs.slice(0, 12).map((slug, i) => (
-          <div 
-            key={i} 
-            className="w-10 h-10 rounded-full animate-pulse"
-            style={{ 
-              backgroundColor: currentTheme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
-            }}
-          />
-        ))}
-      </div>
-    );
+  if (!renderedIcons || error) {
+    return null;
   }
 
   return (

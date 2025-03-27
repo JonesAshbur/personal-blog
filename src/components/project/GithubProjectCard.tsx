@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowRightIcon, HashIcon } from 'lucide-react'
-import { ArrowRight, GitFork, Star, GithubLogo, BookOpen } from '@phosphor-icons/react'
+import { ArrowRight, GitFork, Star, GithubLogo, Code } from '@phosphor-icons/react'
 import { ProjectItemType } from '@/config/infoConfig'
 import { utm_source } from '@/config/siteConfig'
 import Link from 'next/link'
@@ -25,7 +25,7 @@ export function GithubProjectCard({ project, titleAs }: { project: ProjectItemTy
       <div className="relative flex flex-col justify-between h-full w-full py-5  px-6 rounded-2xl border border-muted-foreground/20 shadow-sm transition-all group-hover:scale-[1.03] group-hover:shadow-md group-hover:bg-muted/5">
         <div className=''>
           <div className='flex flex-col sm:flex-row justify-center sm:justify-start items-start sm:items-center gap-2'>
-            <BookOpen size={20} weight="duotone" />
+            <Code size={20} weight="duotone" className="text-primary" />
             <Component className="text-sm font-semibold tracking-tight truncate max-w-full" title={project.name}>
               {displayName}
             </Component>
