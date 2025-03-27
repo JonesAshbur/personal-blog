@@ -13,7 +13,9 @@ function truncateName(name: string, maxLength: number = 20): string {
 }
 
 export function GithubProjectCard({ project, titleAs }: { project: ProjectItemType, titleAs?: keyof JSX.IntrinsicElements }) {
-  const utmLink = `https://${project.link.href}?utm_source=${utm_source}`
+  const utmLink = project.link.href.startsWith('http')
+    ? `${project.link.href}?utm_source=${utm_source}`
+    : `https://${project.link.href}?utm_source=${utm_source}`
   let Component = titleAs ?? 'h2'
   // 名称处理
   const displayName = truncateName(project.name);
