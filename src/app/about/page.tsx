@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { aboutMeHeadline, aboutParagraphs } from '@/config/infoConfig'
 import { Container } from '@/components/layout/Container'
 
-import portraitImage from '@/images/portrait.jpg'
+import portraitImage from '@/images/me.jpg'
 import SocialLinks from '@/components/about/SocialLinks'
 
 

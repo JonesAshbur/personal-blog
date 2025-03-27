@@ -7,11 +7,11 @@ export * from './activity'
 
 
 // personal info
-export const name = 'Corey Chiu'
-export const headline = 'Software engineer, Full-Stack web developer, and indie hacker.'
-export const introduction = 'I’m Corey, a software engineer based in Shenzhen, China. I like coding, and building interesting things'
-export const email = 'xxx@gmail.com'
-export const githubUsername = 'iamcorey'
+export const name = 'Kevin'
+export const headline = 'Welcome to my website.'
+export const introduction = 'I like coding, building interesting things and writing some tutorials that might be useful'
+export const email = 'jonesashbur@gmail.com'
+export const githubUsername = 'jonesashbur'
 
 // about page
 export const aboutMeHeadline = "I'm Corey Chiu, a software engineer based in Shenzhen, China."
@@ -54,7 +54,7 @@ export const socialLinks: Array<SocialLinkType> = [
   {
     name: 'Github',
     icon: 'github',
-    href: 'https://github.com/iamcorey'
+    href: 'https://github.com/jonesashbur'
   },
   {
     name: 'Wechat',
@@ -77,27 +77,23 @@ export const socialLinks: Array<SocialLinkType> = [
 export const techIcons = [
   "typescript",
   "javascript",
-  "supabase",
+  "go",
   "cloudflare",
-  "java",
-  "oracle",
+  // "java",
+  // "oracle",
   "mysql",
   "react",
-  "nodedotjs",
-  "nextdotjs",
-  "prisma",
-  "postgresql",
-  "nginx",
   "vercel",
   "docker",
   "git",
   "github",
-  "visualstudiocode",
-  "androidstudio",
+  // "visualstudio",
   "ios",
   "apple",
-  "wechat"
+  "wechat",
+  "c",
+  "rust",
+  "html5",
+  "css3",
+  "kubernetes"
 ];
-
-
-

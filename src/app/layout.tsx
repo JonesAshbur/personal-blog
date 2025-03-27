@@ -9,11 +9,25 @@ import '@/styles/tailwind.css'
 export const metadata: Metadata = {
   title: {
     template: `%s - ${name}`,
-    default:
-      `${name} - ${headline}`,
+    default: `${name} - ${headline}`,
   },
-  description:
-    `${introduction}`,
+  description: `${introduction}`,
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png' }
+    ],
+    other: [
+      {
+        rel: 'manifest',
+        url: '/site.webmanifest'
+      }
+    ]
+  },
   alternates: {
     types: {
       'application/rss+xml': `${process.env.NEXT_PUBLIC_SITE_URL}/feed`,

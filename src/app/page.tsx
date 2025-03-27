@@ -1,29 +1,50 @@
-
 import { Container } from '@/components/layout/Container'
-import Newsletter from '@/components/home/Newsletter'
-import Feed from '@/components/home/Feed'
-import Career from '@/components/home/Career'
-import Education from '@/components/home/Education'
 import SocialLinks from '@/components/home/SocialLinks'
 import { headline, introduction } from '@/config/infoConfig'
-import { BlogCard } from '@/components/home/BlogCard'
-import { getAllBlogs, type BlogType } from '@/lib/blogs'
-import { ProjectCard } from '@/components/project/ProjectCard'
 import { GithubProjectCard } from '@/components/project/GithubProjectCard'
-import { projectHeadLine, projectIntro, projects, githubProjects, blogHeadLine, blogIntro, techIcons, activityHeadLine, activityIntro } from '@/config/infoConfig'
-import GithubContributions from '@/components/home/GithubCalendar'
-import GitHubSnake from '@/components/home/GitHubSnake'
 import { CustomIcon } from '@/components/shared/CustomIcon'
 import IconCloud from "@/components/ui/icon-cloud";
-import { TweetGrid } from "@/components/home/TweetGrid";
-import { MarqueeVertical } from '@/components/home/MarqueeVertical'
+import { techIcons } from '@/config/infoConfig'
+import { ProjectItemType } from '@/config/infoConfig'
+import { HomeBlogCard } from '@/components/home/HomeBlogCard'
+import { BlogType } from '@/lib/blogs'
 
+async function getGithubRepos(): Promise<{ data: ProjectItemType[]; error: string | null }> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/github-repos`, {
+      next: { revalidate: 3600 }, // 1小时缓存
+    });
+    
+    if (!res.ok) {
+      throw new Error('Failed to fetch GitHub repos');
+    }
+    
+    const data = await res.json();
+    return { data, error: null };
+  } catch (error) {
+    console.error('Error fetching GitHub repos:', error);
+    return { data: [], error: '获取GitHub仓库失败，请稍后再试' };
+  }
+}
 
+async function getBlogs(): Promise<BlogType[]> {
+  try {
+    // 在服务器端获取数据，相对路径
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blogs`, { cache: 'no-store' });
+    if (!res.ok) {
+      throw new Error('Failed to fetch blogs');
+    }
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    return [];
+  }
+}
 
 export default async function Home() {
-  let blogList = (await getAllBlogs()).slice(0, 4)
-  // console.log('blogList: ', blogList)
-
+  const { data: githubRepos, error: githubError } = await getGithubRepos();
+  const blogs = await getBlogs();
+  
   return (
     <>
       <Container className="mt-9">
@@ -42,76 +63,49 @@ export default async function Home() {
             <IconCloud iconSlugs={techIcons} />
           </div>
         </div>
-        <div className="mt-6 border-t border-zinc-100 py-8 dark:border-zinc-700/40">
-          {/* <GithubContributions /> */}
-          <GitHubSnake />
-        </div>
-        {/* projects */}
-        <div className="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl opacity-80">
-            {projectHeadLine}
-          </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mb-8">
-            {projectIntro}
-          </p>
-          <ul
-            role="list"
-            className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3"
-          >
-            {projects.map((project) => (
-              <ProjectCard key={project.name} project={project} titleAs='h3'/>
-            ))}
-          </ul>
-        </div>
+        
+        {/* GitHub Projects */}
         <div className="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
           <h2 className="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
             <CustomIcon name='github' size={28}/>
             Open Source
           </h2>
-          <ul
-            role="list"
-            className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3"
-          >
-            {githubProjects.map((project) => (
-              <GithubProjectCard key={project.name} project={project} titleAs='h3'/>
-            ))}
-          </ul>
+          {githubError ? (
+            <p className="text-center text-red-500">{githubError}</p>
+          ) : githubRepos.length > 0 ? (
+            <ul
+              role="list"
+              className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3"
+            >
+              {githubRepos.map((project: ProjectItemType) => (
+                <GithubProjectCard key={project.name} project={project} titleAs='h3'/>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-muted-foreground">Loading GitHub repositories...</p>
+          )}
         </div>
-        <div className="mx-auto flex flex-col max-w-xl gap-6 py-8 my-8 lg:max-w-none border-t border-muted">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl opacity-80">
-            {blogHeadLine}
-          </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mb-8">
-            {blogIntro}
-          </p>
-        </div>
-        <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
-          {/* left column */}
-          {/* blog */}
-          <div className="flex flex-col gap-16">
-            {blogList.map((blog: BlogType) => (
-              <BlogCard key={blog.slug} blog={blog} titleAs='h3'/>
-            ))}
-          </div>
-
-          {/* right column */}
-          <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <Career />
-            <Education />
-
-            {/* <Newsletter /> */}
-            <Feed />
-          </div>
-        </div>
+        
+        {/* Blogs */}
         <div className="mx-auto flex flex-col max-w-xl gap-6 lg:max-w-none my-4 py-8 border-t border-muted">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl opacity-80">
-            {activityHeadLine}
+          <h2 className="flex flex-row items-center justify-start gap-2 text-xl font-semibold tracking-tight md:text-3xl opacity-80 mb-4">
+            <CustomIcon name='pencil' size={28}/>
+            Blogs
           </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mb-2">
-            {activityIntro}
-          </p>
-          <TweetGrid />
-          <MarqueeVertical />
+          {blogs.length > 0 ? (
+            <ul
+              role="list"
+              className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3"
+            >
+              {blogs.map((blog: BlogType) => (
+                <li key={blog.slug}>
+                  <HomeBlogCard blog={blog} titleAs='h3'/>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-muted-foreground">Loading blogs...</p>
+          )}
         </div>
       </Container>
     </>

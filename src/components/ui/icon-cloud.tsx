@@ -65,24 +65,49 @@ type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
   const [data, setData] = useState<IconData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
-    fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
+    setIsLoading(true);
+    setError(null);
+    fetchSimpleIcons({ slugs: iconSlugs })
+      .then((result) => {
+        setData(result);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error('Failed to load icons:', err);
+        setError('Failed to load icons');
+        setIsLoading(false);
+      });
   }, [iconSlugs]);
 
   const renderedIcons = useMemo(() => {
-    if (!data) return null;
+    if (!data || !theme) return null;
 
-    return Object.values(data.simpleIcons).map((icon) =>
-      renderCustomIcon(icon, theme || "light"),
-    );
+    try {
+      return Object.values(data.simpleIcons).map((icon) =>
+        renderCustomIcon(icon, theme)
+      );
+    } catch (err) {
+      console.error('Error rendering icons:', err);
+      return null;
+    }
   }, [data, theme]);
 
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
+
+  if (isLoading || !renderedIcons) {
+    return <div className="text-center">Loading icons...</div>;
+  }
+
   return (
-    // @ts-ignore
     <Cloud {...cloudProps}>
-      <>{renderedIcons}</>
+      {renderedIcons}
     </Cloud>
   );
 }

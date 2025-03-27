@@ -21,7 +21,7 @@ export type ProjectItemType = {
     {
       name: '轻息',
       description:
-        '一款呼吸训练、缓解压力、提升专注力的“小而美”app',
+        '一款呼吸训练、缓解压力、提升专注力的"小而美"app',
       link: { href: 'apps.apple.com/us/app/%E8%BD%BB%E6%81%AF/id6742171445', label: '轻息' },
       category: ['App'],
       techStack: ['SwiftUI'],
@@ -112,7 +112,7 @@ export type ProjectItemType = {
     {
       name: 'Devtoolset',
       description: 'Open-source & database-free developer tools navigator / 开源无数据库配置的开发者工具导航站',
-      link: { href: 'github.com/iAmCorey/devtoolset', label: 'Devtoolset' },
+      link: { href: 'github.com/jonesashbur/devtoolset', label: 'Devtoolset' },
       gitStars: 203,
       gitForks: 67
     },
@@ -120,7 +120,7 @@ export type ProjectItemType = {
       name: 'Corey Chiu Portfolio Template',
       description:
         'portfolio template by corey chiu',
-      link: { href: 'github.com/iAmCorey/coreychiu-portfolio-template', label: 'Corey Chiu Portfolio Template' },
+      link: { href: 'github.com/jonesashbur/coreychiu-portfolio-template', label: 'Corey Chiu Portfolio Template' },
       gitStars: 229,
       gitForks: 30
     },
@@ -128,7 +128,7 @@ export type ProjectItemType = {
       name: 'Chrome Extension Plasmo Template',
       description:
         'A chrome extension template using plasmo, tailwind css, shadcn/ui',
-      link: { href: 'github.com/iAmCorey/chrome-extension-plasmo-template', label: 'Chrome Extension Plasmo Template' },
+      link: { href: 'github.com/jonesashbur/chrome-extension-plasmo-template', label: 'Chrome Extension Plasmo Template' },
       gitStars: 54,
       gitForks: 10
     },
@@ -136,7 +136,7 @@ export type ProjectItemType = {
       name: 'Awesome Indie Hacker Tools',
       description:
         '独立开发/出海开发相关技术栈及工具收录 / Find the best tools for indie hackers here',
-      link: { href: 'github.com/iAmCorey/awesome-indie-hacker-tools', label: 'Awesome Indie Hacker Tools' },
+      link: { href: 'github.com/jonesashbur/awesome-indie-hacker-tools', label: 'Awesome Indie Hacker Tools' },
       gitStars: 815,
       gitForks: 69
     },
@@ -144,7 +144,7 @@ export type ProjectItemType = {
       name: 'Awesome AI Directory',
       description:
         'AI资源工具导航站收录 / Find all the best AI directories',
-      link: { href: 'github.com/iAmCorey/awesome-ai-directory', label: 'Awesome AI Directory' },
+      link: { href: 'github.com/jonesashbur/awesome-ai-directory', label: 'Awesome AI Directory' },
       gitStars: 40,
       gitForks: 7
     },
@@ -152,7 +152,7 @@ export type ProjectItemType = {
       name: 'Producthunt Daily Bot',
       description:
         'A bot getting product hunt daily top products',
-      link: { href: 'github.com/iAmCorey/producthunt-daily-bot', label: 'Producthunt Daily Bot' },
+      link: { href: 'github.com/jonesashbur/producthunt-daily-bot', label: 'Producthunt Daily Bot' },
       gitStars: 3,
       gitForks: 3
     },
@@ -160,8 +160,7 @@ export type ProjectItemType = {
       name: 'Cantonese Echoes',
       description:
         'Cantonese Echoes / 粵語殘片',
-      link: { href: 'github.com/iAmCorey/Cantonese-Echoes', label: 'Cantonese Echoes' },
+      link: { href: 'github.com/jonesashbur/Cantonese-Echoes', label: 'Cantonese Echoes' },
       gitStars: 1
     },
   ]
-  

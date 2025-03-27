@@ -5,6 +5,7 @@ import { SimpleLayout } from '@/components/layout/SimpleLayout'
 import { type BlogType, getAllBlogs } from '@/lib/blogs'
 import { formatDate } from '@/lib/formatDate'
 import { blogHeadLine, blogIntro } from '@/config/infoConfig'
+import { CustomIcon } from '@/components/shared/CustomIcon'
 
 export const runtime = process.env.NEXT_RUNTIME === 'edge' ? 'edge' : 'nodejs'
 
@@ -50,6 +51,7 @@ export default async function BlogsIndex() {
     <SimpleLayout
       title={blogHeadLine}
       intro={blogIntro}
+      icon={<CustomIcon name='pencil' size={28} />}
     >
       <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
         <div className="flex max-w-3xl flex-col space-y-16">
