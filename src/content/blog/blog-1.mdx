@@ -1,18 +1,13 @@
 ---
 title: '什么是 MCP ?'
-description: '模型上下文协议'
+description: 'MCP入门'
 date: '2025-03-27'
 ---
-
-
-
-本文参考自：[Anthropic](https://www.anthropic.com/news/model-context-protocol)
 
 ------
 
 ![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F3aabd8804251c0364cbde9d2e4be6dc8e8c2faec-2880x1620.png&w=3840&q=75)
 
-## 深入浅出：Model Context Protocol (MCP)
 
 在日常生活中，我们可能会遇到各种接口和标准，比如 USB 接口可以连接不同的外设。而在人工智能的世界里，Model Context Protocol（MCP）就类似于一个“万能接口”，帮助 AI 大模型与外部数据和工具进行高效、标准化的连接。
 
@@ -32,7 +27,7 @@ MCP（Model Context Protocol）是一种**开放标准协议**，其目的是帮
 MCP 协议主要由三个部分组成：
 
 1. **MCP 主机（Host）**
-   - 这是运行 AI 模型的应用程序（例如 Claude Desktop、某一个聊天机器人或代码编辑器）。
+   - 这是运行 AI 模型的应用程序（例如 Claude Desktop、ChatGPT Desktop）。
    - 它负责接收用户输入，并在需要时调用外部资源。
 2. **MCP 客户端（Client）**
    - 集成在主机内部，专门用于与 MCP 服务器通信。
@@ -64,7 +59,7 @@ MCP 协议主要由三个部分组成：
 
 - **统一标准**
    通过 MCP，开发者只需实现一次对接，就可以让 AI 模型连接到各种不同的数据源，无需为每个工具写单独的代码。
-- **实时双向通信**
+- **实时通信**
    MCP 支持 AI 模型动态获取信息和执行操作，从而让模型的回答更准确、更及时。
 - **数据安全**
    通过标准化接口，用户的数据可以在本地安全存储，不必全部上传到云端，降低数据泄露风险。
@@ -97,6 +92,4 @@ MCP 协议主要由三个部分组成：
 
 ------
 
-## 结语
 
-Model Context Protocol 为 AI 模型打开了连接外部数据与工具的新大门。通过标准化的协议，MCP 让不同数据源的整合变得简单而安全，也为 AI 应用的扩展性和实时性提供便捷。
