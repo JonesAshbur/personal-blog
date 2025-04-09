@@ -1,0 +1,547 @@
+---
+title: 'About golang'
+description: 'golang'
+date: '2025-04-09'
+---
+
+**example-1：**
+
+```go
+package main
+
+import (  
+    "fmt"
+)
+
+func main() {  
+    a := [5]int{1, 2, 3, 4, 5}
+    t := a[3:4:4]
+    fmt.Println(t[0])
+}
+```
+
+```go
+输出：
+4
+```
+
+操作符 [i,j]。基于数组（切片）可以使用操作符 [i,j] 创建新的切片，从索引 i，到索引 j 结束，截取已有数组（切片）的任意部分，返回新的切片，新切片的值包含原数组（切片）的 i 索引的值，但是不包含 j 索引的值（左闭右开区间）。i、j 都是可选的，i 如果省略，默认是 0（从切片的第一个元素开始），j 如果省略，默认是原数组（切片）的长度（从i到最后）。i、j 都不能超过原切片长度值。
+
+假如底层数组的大小为 k，截取之后获得的切片的长度和容量的计算方法：长度：j-i，容量：k-i。
+
+截取操作符还可以有第三个参数，形如 [i,j,k]，第三个参数 k 用来限制新切片的容量，但不能超过原数组（切片）的底层数组大小。截取获得的切片的长度和容量分别是：j-i、k-i。
+
+**example-2：**
+
+```go
+func main() {
+    a := [2]int{5, 6}
+    b := [3]int{5, 6}
+    if a == b {
+        fmt.Println("equal")
+    } else {
+        fmt.Println("not equal")
+    }
+}
+```
+
+```go
+输出：
+not equal
+```
+
+Go 中的数组是值类型，可比较，但是数组的长度也是数组类型的组成部分，所以 a 和 b 是不同的类型，不能比较的，所以编译错误。
+
+**example-3：**
+
+```go
+package main
+
+ import (
+     "fmt"
+ )
+
+ func main() {
+     defer_call()
+ }
+
+func defer_call() {
+    defer func() { fmt.Println("打印前") }()
+    defer func() { fmt.Println("打印中") }()
+    defer func() { fmt.Println("打印后") }()
+    panic("触发异常")
+}
+```
+
+```go
+输出：
+打印后
+打印中
+打印前
+panic: 触发异常
+```
+
+defer 的执行顺序是后进先出。当出现 panic 语句的时候，会先按照 defer 的后进先出的顺序执行，最后才会执行panic。
+
+**example-4：**
+
+```go
+func main() {
+
+     slice := []int{0,1,2,3}
+     m := make(map[int]*int)
+
+     for key,val := range slice {
+         m[key] = &val
+     }
+
+    for k,v := range m {
+        fmt.Println(k,"->",*v)
+    }
+}
+```
+
+```go
+输出：（不固定）
+0 -> 3
+1 -> 3
+2 -> 3
+3 -> 3
+```
+
+for range 循环的时候会创建每个元素的副本，而不是元素的引用，所以 m[key] = &val 取的都是变量 val 的地址，所以最后 map 中的所有元素的值都是变量 val 的地址，因为最后 val 被赋值为3，所有输出都是3.
+
+正解：
+
+```go
+func main() {
+
+     slice := []int{0,1,2,3}
+     m := make(map[int]*int)
+
+     for key,val := range slice {
+         value := val
+         m[key] = &value
+     }
+
+    for k,v := range m {
+        fmt.Println(k,"===>",*v)
+    }
+}
+```
+
+**example-4：**
+
+new() 与 make() 的区别：
+
+new(T) 和 make(T,args) 是 Go 语言内建函数，用来分配内存，但适用的类型不同。
+
+new(T) 会为 T 类型的新值分配已置零的内存空间，并返回地址（指针），即类型为 *T的值。换句话说就是，返回一个指针，该指针指向新分配的、类型为 T 的零值。适用于值类型，如数组、结构体等。
+
+make(T,args) 返回初始化之后的 T 类型的值，这个值并不是 T 类型的零值，也不是指针 *T，是经过初始化之后的 T 的引用。make() 只适用于 slice、map 和 channel.
+
+**example-4：**
+
+```go
+func main() {
+    list := new([]int)
+    list = append(list, 1)
+    fmt.Println(list)
+}
+```
+
+不能通过编译，new([]int) 之后的 list 是一个 `*[]int` 类型的指针，不能对指针执行 append 操作。可以使用 make() 初始化之后再用。同样的，map 和 channel 建议使用 make() 或字面量的方式初始化，不要用 new() 。
+
+```go
+func main() {
+    s1 := []int{1, 2, 3}
+    s2 := []int{4, 5}
+    s1 = append(s1, s2)
+    fmt.Println(s1)
+}
+```
+
+不能通过编译。append() 的第二个参数不能直接使用 slice，需使用 … 操作符，将一个切片追加到另一个切片上：append(s1,s2…)。或者直接跟上元素，例如：append(s1,1,2,3)。
+
+**example-5：**
+
+```go
+var(
+    size := 1024
+    max_size = size*2
+)
+
+func main() {
+    fmt.Println(size,max_size)
+}
+```
+
+类型推导的使用限制：
+
+```tex
+1.必须使用显示初始化；
+2.不能提供数据类型，编译器会自动推导；
+3.只能在函数内部使用简短模式；
+```
+
+**example-6：**
+
+结构体只能比较是否相等，不能比较大小。只有相同类型的结构体才能进行比较，结构体是否相同不仅与属性类型相关，还与属性在结构体中的顺序有关。
+
+下列就是不同类型的结构体：
+
+```go
+demo1 := struct {
+        age  int
+        name string
+    }{age: 1, name: "a"}
+```
+
+```go
+demo2 := struct {
+     	name string
+        age  int
+    }{age: 1, name: "a"}
+```
+
+如果 struct 的所有成员都可以比较，则该 struct 就可以通过 == 或 != 进行比较是否相等，比较时逐个项进行比较，如果每一项都相等，则两个结构体才相等，否则不相等
+
+那什么是可比较的呢，常见的有 bool、数值型、字符、指针、数组等，像slice、map、函数等是不能比较的。
+
+**example-7：**
+
+```go
+package main
+
+import "fmt"
+
+type MyInt1 int
+type MyInt2 = int
+
+func main() {
+    var i int =0
+    var i1 MyInt1 = i 
+    var i2 MyInt2 = i
+    fmt.Println(i1,i2)
+}
+```
+
+```go
+输出：cannot use i (type int) as type MyInt1 in assignment
+```
+
+第 5 行代码是基于类型 int 创建了新类型 MyInt1，第 6 行代码是创建了 int 的类型别名 MyInt2，注意类型别名的定义时 = 。所以，第 10 行代码相当于是将 int 类型的变量赋值给 MyInt1 类型的变量，Go 是强类型语言，编译不能通过；而 MyInt2 只是 int 的别名，本质上还是 int，可以赋值。
+
+第 10 行代码的赋值可以使用强制类型转化 var i1 MyInt1 = MyInt1(i).
+
+**example-8：**
+
+```go
+const (
+     x = iota
+     _
+     y
+     z = "zz"
+     k 
+     p = iota
+ )
+
+func main()  {
+    fmt.Println(x,y,z,k,p)
+}
+```
+
+```go
+输出：0 2 zz zz 5
+```
+
+第六行没有显示赋值所以继承上一个常量的值。
+
+如果没有显式赋值，Go 会：
+
+- 如果前一个常量用了 iota，则继续用 iota（如 y）。
+- 如果前一个常量是显式赋值的（如 z = "zz"），则继承它的值（如 k）。
+
+p = iota 又显式使用了 iota，所以 p=5。
+
+iota是golang语言的常量计数器,只能在常量的表达式中使用。
+
+iota在const关键字出现时将被重置为0(const内部的第一行之前)，const中每新增一行常量声明将使iota计数一次。
+
+使用iota能简化定义，在定义枚举时很有用。
+
+**example-9：**
+
+init() 函数注意事项：
+
+1. init() 函数是用于程序执行前做包的初始化的函数，比如初始化包里的变量等。
+2. 一个包可以有多个 init() 函数,一个源文件也可以包含多个 init() 函数。
+3. 同一个包中多个 init() 函数的执行顺序没有明确定义，但是不同包的init函数是根据包导入的依赖关系决定的。
+4. init() 函数在代码中不能被显示调用、不能被引用（赋值给函数变量），否则出现编译错误。
+5. 一个包被引用多次，如 A import B,C import B,A import C，B 被引用多次，但 B 包只会初始化一次。
+6. 引入包，不可出现死循坏。即 A import B,B import A，这种情况编译失败。
+
+**example-10：**
+
+```go
+func hello() []string {  
+     return nil
+ }
+
+ func main() {  
+     h := hello
+     if h == nil {
+         fmt.Println("nil")
+     } else {
+        fmt.Println("not nil")
+    }
+}
+```
+
+```go
+输出：not nil
+```
+
+将 hello() 赋值给变量 h，而不是函数的返回值，所以输出 not nil
+
+**example-11：**
+
+```go
+func GetValue() int {
+     return 1
+ }
+
+ func main() {
+     i := GetValue()
+     switch i.(type) {
+     case int:
+         println("int")
+     case string:
+        println("string")
+     case interface{}:
+        println("interface")
+     default:
+        println("unknown")
+    }
+}
+```
+
+```go
+输出：i (variable of type int) is not an interface
+```
+
+类型断言，类型断言的语法：i.(type)，其中 i 是接口，type 是固定关键字，需要注意的是，只有接口类型才可以使用类型断言。
+
+**example-12：**
+
+```go
+func hello(num ...int) {  
+    num[0] = 18
+}
+
+func main() {  
+    i := []int{5, 6, 7}
+    hello(i...)
+    fmt.Println(i[0])
+}
+```
+
+```go
+输出：18
+```
+
+此时int数组中存放的是18，6，7
+
+可变函数
+
+**example-13：**
+
+```go
+func main() {  
+    s := make(map[string]int)
+    delete(s, "h")
+    fmt.Println(s["h"])
+}
+```
+
+```go
+输出：0
+```
+
+删除 map 不存在的键值对时，不会报错，相当于没有任何作用；获取不存在的键值对时，返回值类型对应的零值，所以返回 0
+
+**example-14：**
+
+```go
+func main() {  
+    i := -5
+    j := +5
+    fmt.Printf("%+d %+d", i, j)
+}
+```
+
+```go
+输出：-5 +5
+```
+
+格式控制符%d表示输出十进制数字，+表示输出数值的原符号，不表示取反。
+
+**example-15：**
+
+```go
+type People struct{}
+
+func (p *People) ShowA() {
+    fmt.Println("showA")
+    p.ShowB()
+}
+func (p *People) ShowB() {
+    fmt.Println("showB")
+}
+
+type Teacher struct {
+    People
+}
+
+func (t *Teacher) ShowB() {
+    fmt.Println("teacher")
+}
+
+func main() {
+    t := Teacher{}
+    t.ShowB()
+}
+```
+
+```go
+输出：teacher
+```
+
+结构体嵌套，在嵌套结构体中，People 称为内部类型，Teacher 称为外部类型；通过嵌套，内部类型的属性、方法，可以为外部类型所有，就好像是外部类型自己的一样（继承特性）。此外，外部类型还可以定义自己的属性和方法，甚至可以定义与内部相同的方法，这样内部类型的方法就会被“屏蔽”。
+
+**example-16：**
+
+```go
+func hello(i int) {  
+    fmt.Println(i)
+}
+func main() {  
+    i := 5
+    defer hello(i)
+    i = i + 10
+}
+```
+
+```go
+输出：5
+```
+
+执行 defer 语句的时候会保存一份副本，在实际调用 hello() 函数时传递的参数是副本5
+
+**example-17：**
+
+```go
+func main() {
+    str := "hello"
+    str[0] = 'x'
+    fmt.Println(str)
+}
+```
+
+```go
+输出：cannot assign to str[0] (neither addressable nor a map index expression)
+```
+
+go语言中字符串是只读的
+
+**example-18：**
+
+```go
+func main() {
+
+    s := [3]int{1, 2, 3}
+    a := s[:0]
+    b := s[:2]
+    c := s[1:2:cap(s)]
+}
+```
+
+分析每个切片的长度和容量：
+
+原始数组：
+
+s := [3]int{1, 2, 3} 是一个长度为3的数组
+
+1. 切片 a := s[:0]：
+
+长度：0（因为切取的是从开始到第0个元素）
+
+容量：3（从底层数组开始切取，剩余容量为整个数组）
+
+结果：len(a)=0, cap(a)=3
+
+2. 切片 b := s[:2]：
+
+长度：2（切取从开始到第2个元素，不包括第2个）
+
+容量：3（从底层数组开始切取）
+
+结果：len(b)=2, cap(b)=3
+
+3. 切片 c := s[1:2:cap(s)]：
+
+这是一个完整切片表达式 s[low:high:max]
+
+low=1, high=2, max=cap(s)=3
+
+长度：high-low=2-1=1
+
+容量：max-low=3-1=2
+
+结果：len(c)=1, cap(c)=2
+
+**最终结果**：
+
+a: len=0, cap=3
+
+b: len=2, cap=3
+
+c: len=1, cap=2
+
+**example-19：**
+
+```go
+package main
+
+import "fmt"
+
+func increaseA() int {
+    var i int
+    defer func() {
+       i++
+    }()
+    return i
+}
+
+func increaseB() (r int) {
+    defer func() {
+       r++
+    }()
+    return r
+}
+
+func main() {
+    fmt.Println(increaseA())
+    fmt.Println(increaseB())
+}
+```
+
+```go
+输出：
+0
+1
+```
+
+匿名返回值：return 时返回的是值的副本，defer 修改局部变量不影响返回值。
+
+命名返回值：return 时返回的是变量本身，defer 可以修改它，从而影响返回值。
