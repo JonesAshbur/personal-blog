@@ -3,6 +3,7 @@ import { type Metadata } from 'next'
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/layout/Layout'
 import { Analytics } from "@/components/analytics/analytics";
+import { ScrollToTop } from '@/components/common/ScrollToTop'
 import { name, headline, introduction } from '@/config/infoConfig'
 import '@/styles/tailwind.css'
 
@@ -17,12 +18,7 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
-  alternates: {
-    types: {
-      'application/rss+xml': `${process.env.NEXT_PUBLIC_SITE_URL}/feed`,
-    },
-  },
+  manifest: '/site.webmanifest'
 }
 
 export default function RootLayout({
@@ -36,6 +32,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex w-full">
             <Layout>{children}</Layout>
+            <ScrollToTop />
           </div>
           <Analytics />
         </Providers>
