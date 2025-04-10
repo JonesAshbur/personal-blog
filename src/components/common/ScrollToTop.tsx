@@ -56,10 +56,14 @@ export const ScrollToTop = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className={`fixed bottom-8 right-8 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-teal-400 p-2 text-white shadow-lg transition-all duration-200 hover:bg-teal-500 hover:shadow-xl ${isScrolling ? 'opacity-0' : 'opacity-20 hover:opacity-100'}`}
+          className={`fixed bottom-8 right-8 z-50 flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md shadow-md shadow-zinc-800/5 ring-1 transition-all duration-200 ${
+            isScrolling 
+              ? 'opacity-60 bg-white/30 ring-white/40 dark:bg-zinc-800/30 dark:ring-white/30' 
+              : 'opacity-20 hover:opacity-100 bg-white/10 ring-white/20 hover:bg-white/20 dark:bg-zinc-800/10 dark:ring-white/10 dark:hover:ring-white/20'
+          }`}
           aria-label="返回顶部"
         >
-          <IoIosArrowUp className="h-6 w-6" />
+          <IoIosArrowUp className="h-6 w-6 text-zinc-800 group-hover:text-zinc-900 dark:text-zinc-200 dark:group-hover:text-white" />
         </button>
       )}
     </>

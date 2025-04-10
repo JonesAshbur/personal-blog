@@ -69,9 +69,13 @@ export function BlogLayout({
               type="button"
               onClick={() => router.back()}
               aria-label="Go back to blogs"
-              className={`group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-teal-400 shadow-md shadow-zinc-800/5 ring-1 ring-teal-500/20 transition-all duration-200 dark:border dark:border-teal-700/50 dark:bg-teal-400 dark:ring-0 dark:ring-white/10 dark:hover:border-teal-700 dark:hover:ring-white/20 sticky top-20 left-4 -ml-14 z-10 ${isScrolling ? 'opacity-0' : 'opacity-20 hover:opacity-100'}`}
+              className={`group mb-8 flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md shadow-md shadow-zinc-800/5 ring-1 transition-all duration-200 sticky top-20 left-4 -ml-14 z-10 ${
+                isScrolling 
+                  ? 'opacity-60 bg-white/30 ring-white/40 dark:bg-zinc-800/30 dark:ring-white/30' 
+                  : 'opacity-20 hover:opacity-100 bg-white/10 ring-white/20 dark:bg-zinc-800/10 dark:ring-white/10 dark:hover:ring-white/20'
+              }`}
             >
-              <ArrowLeftIcon className="h-4 w-4 stroke-white transition group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-white" />
+              <ArrowLeftIcon className="h-4 w-4 stroke-zinc-800 transition group-hover:stroke-zinc-900 dark:stroke-zinc-200 dark:group-hover:stroke-white" />
             </button>
           )}
           <article>
