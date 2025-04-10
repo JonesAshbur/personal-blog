@@ -4,38 +4,42 @@ import { NextResponse } from 'next/server';
 // GitHub API镜像列表
 const GITHUB_API_MIRRORS = [
   'https://api.github.com',               // 官方API
-  'https://github.api.cnpmjs.org',        // 国内镜像1
-  'https://hub.fastgit.xyz/api/v3',       // 国内镜像2
-  'https://github.api.hellof.asia',       // 国内镜像3
 ];
 
 // 模拟数据，当所有API访问都失败时使用
 const FALLBACK_REPOS = [
   {
-    name: "react-personal-blog",
-    description: "个人博客模板，基于React和Next.js开发",
-    link: { href: `https://github.com/${githubUsername}/react-personal-blog`, label: "react-personal-blog" },
-    gitStars: 42,
-    gitForks: 12
+    name: "golang_Grpc",
+    description: "grpc learning record",
+    link: { href: `https://github.com/${githubUsername}/golang_Grpc`, label: "golang_Grpc" },
+    gitStars: 0,
+    gitForks: 0
   },
   {
-    name: "markdown-editor",
-    description: "简洁的Markdown编辑器，支持实时预览和自定义主题",
-    link: { href: `https://github.com/${githubUsername}/markdown-editor`, label: "markdown-editor" },
-    gitStars: 28,
-    gitForks: 8
+    name: "golang_Gin",
+    description: "gin learning record",
+    link: { href: `https://github.com/${githubUsername}/golang_Gin`, label: "golang_Gin" },
+    gitStars: 0,
+    gitForks: 0
   },
   {
-    name: "code-snippet-manager",
-    description: "代码片段管理工具，帮助开发者整理和分享常用代码",
-    link: { href: `https://github.com/${githubUsername}/code-snippet-manager`, label: "code-snippet-manager" },
-    gitStars: 18,
-    gitForks: 4
+    name: "golang_DataStructure",
+    description: "Data structures and algorithms, implemented in go language",
+    link: { href: `https://github.com/${githubUsername}/golang_DataStructure`, label: "golang_DataStructure" },
+    gitStars: 0,
+    gitForks: 0
+  },
+  {
+    name: "golang_Learning",
+    description: "golang learning record",
+    link: { href: `https://github.com/${githubUsername}/golang_Learning`, label: "golang_Learning" },
+    gitStars: 0,
+    gitForks: 0
   }
 ];
 
 // 增强版重试函数，支持多个API端点
-async function fetchWithFallbacks(username: string, maxRetries = 2, timeout = 5000) {
+async function fetchWithFallbacks(username: string, maxRetries = 2, timeout = 10000) {
   // 为每个API镜像创建一个fetch Promise
   const fetchPromises = GITHUB_API_MIRRORS.map(async (baseUrl, index) => {
     for (let i = 0; i < maxRetries; i++) {
@@ -92,7 +96,7 @@ async function fetchWithFallbacks(username: string, maxRetries = 2, timeout = 50
     new Promise(resolve => setTimeout(() => {
       console.log('总体请求超时，使用备用数据');
       resolve(null);
-    }, timeout * 2))
+    }, timeout * 3))
   ]);
 }
 
