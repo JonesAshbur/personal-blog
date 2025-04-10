@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { AppContext } from '@/app/providers'
@@ -31,6 +31,34 @@ export function BlogLayout({
 }) {
   let router = useRouter()
   let { previousPathname } = useContext(AppContext)
+  const [isScrolling, setIsScrolling] = useState(false)
+
+  useEffect(() => {
+    let scrollTimer: NodeJS.Timeout | null = null
+
+    const handleScroll = () => {
+      setIsScrolling(true)
+      
+      // 清除之前的定时器
+      if (scrollTimer) {
+        clearTimeout(scrollTimer)
+      }
+      
+      // 设置新的定时器，在滚动停止200ms后将isScrolling设为false
+      scrollTimer = setTimeout(() => {
+        setIsScrolling(false)
+      }, 200)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTimer) {
+        clearTimeout(scrollTimer)
+      }
+    }
+  }, [])
 
   return (
     <Container className="mt-16 lg:mt-32">
@@ -41,9 +69,9 @@ export function BlogLayout({
               type="button"
               onClick={() => router.back()}
               aria-label="Go back to blogs"
-              className="group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 sticky top-20 left-0 z-10"
+              className={`group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-teal-400 shadow-md shadow-zinc-800/5 ring-1 ring-teal-500/20 transition-all duration-200 dark:border dark:border-teal-700/50 dark:bg-teal-400 dark:ring-0 dark:ring-white/10 dark:hover:border-teal-700 dark:hover:ring-white/20 sticky top-20 left-4 -ml-14 z-10 ${isScrolling ? 'opacity-0' : 'opacity-20 hover:opacity-100'}`}
             >
-              <ArrowLeftIcon className="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" />
+              <ArrowLeftIcon className="h-4 w-4 stroke-white transition group-hover:stroke-white dark:stroke-white dark:group-hover:stroke-white" />
             </button>
           )}
           <article>
