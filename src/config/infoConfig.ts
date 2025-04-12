@@ -13,7 +13,7 @@ export const email = 'jonesashbur@gmail.com'
 export const githubUsername = 'jonesashbur'
 
 // about page
-export const aboutMeHeadline = "I'm Kevin, a student based in Tianjin, China."
+export const aboutMeHeadline = "I'm Kevin, based in BeiJing, China."
 export const aboutParagraphs = [
   "I love coding. I learned programming when I in college.",
   "I have a lot of hobbies, such as travelling, photography, reading, football, climb mountain and so on.",
