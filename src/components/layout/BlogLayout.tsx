@@ -8,6 +8,7 @@ import { Container } from '@/components/layout/Container'
 import { Prose } from '@/components/shared/Prose'
 import { type BlogType } from '@/lib/blogs'
 import { formatDate } from '@/lib/formatDate'
+import { TagList } from '@/components/blog/TagList'
 
 function ArrowLeftIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -38,12 +39,12 @@ export function BlogLayout({
 
     const handleScroll = () => {
       setIsScrolling(true)
-      
+
       // 清除之前的定时器
       if (scrollTimer) {
         clearTimeout(scrollTimer)
       }
-      
+
       // 设置新的定时器，在滚动停止200ms后将isScrolling设为false
       scrollTimer = setTimeout(() => {
         setIsScrolling(false)
@@ -70,8 +71,8 @@ export function BlogLayout({
               onClick={() => router.back()}
               aria-label="Go back to blogs"
               className={`group mb-8 flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md shadow-md shadow-zinc-800/5 ring-1 transition-all duration-200 sticky top-20 left-4 -ml-14 z-10 ${
-                isScrolling 
-                  ? 'opacity-60 bg-white/30 ring-white/40 dark:bg-zinc-800/30 dark:ring-white/30' 
+                isScrolling
+                  ? 'opacity-60 bg-white/30 ring-white/40 dark:bg-zinc-800/30 dark:ring-white/30'
                   : 'opacity-20 hover:opacity-100 bg-white/10 ring-white/20 dark:bg-zinc-800/10 dark:ring-white/10 dark:hover:ring-white/20'
               }`}
             >
@@ -92,6 +93,11 @@ export function BlogLayout({
                 <span className="mx-2">·</span>
                 <span>{blog.author}</span>
               </time>
+              {blog.tags && blog.tags.length > 0 && (
+                <div className="mt-4">
+                  <TagList tags={blog.tags} />
+                </div>
+              )}
             </header>
             <Prose className="mt-8" data-mdx-content>
               {children}

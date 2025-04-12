@@ -1,10 +1,11 @@
 import { type Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
 import { Card } from '@/components/shared/Card'
 import { SimpleLayout } from '@/components/layout/SimpleLayout'
 import { type BlogType, getAllBlogs, getAllTags } from '@/lib/blogs'
 import { formatDate } from '@/lib/formatDate'
-import { blogHeadLine, blogIntro } from '@/config/infoConfig'
+import { blogHeadLine } from '@/config/infoConfig'
 import { CustomIcon } from '@/components/shared/CustomIcon'
 import { TagList } from '@/components/blog/TagList'
 
@@ -47,25 +48,37 @@ function Blog({ blog }: BlogProps) {
   )
 }
 
-export const metadata: Metadata = {
-  title: 'Blogs',
-  description:
-    blogIntro
+interface TagPageProps {
+  params: {
+    tag: string
+  }
 }
 
-interface BlogsPageProps {
-  searchParams: { tag?: string }
+export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+  const { tag } = params
+  const decodedTag = decodeURIComponent(tag)
+
+  return {
+    title: `${decodedTag} - 博客标签`,
+    description: `查看关于 ${decodedTag} 的所有博客文章`,
+  }
 }
 
-export default async function BlogsIndex({ searchParams }: BlogsPageProps) {
-  const tag = searchParams.tag || 'all'
-  const blogs = await getAllBlogs(tag)
+export default async function TagPage({ params }: TagPageProps) {
+  const { tag } = params
+  const decodedTag = decodeURIComponent(tag)
+
+  const blogs = await getAllBlogs(decodedTag)
   const allTags = await getAllTags()
+
+  if (blogs.length === 0) {
+    notFound()
+  }
 
   return (
     <SimpleLayout
-      title={blogHeadLine}
-      intro={blogIntro}
+      title={`${decodedTag} 相关文章`}
+      intro={`以下是关于 ${decodedTag} 的所有博客文章`}
       icon={<CustomIcon name='pencil' size={28} />}
     >
       <div className="mb-8">
