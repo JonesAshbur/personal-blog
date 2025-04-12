@@ -130,7 +130,7 @@ func main() {
 }
 ```
 
-**example-4：**
+**example-5：**
 
 new() 与 make() 的区别：
 
@@ -140,7 +140,7 @@ new(T) 会为 T 类型的新值分配已置零的内存空间，并返回地址�
 
 make(T,args) 返回初始化之后的 T 类型的值，这个值并不是 T 类型的零值，也不是指针 *T，是经过初始化之后的 T 的引用。make() 只适用于 slice、map 和 channel.
 
-**example-4：**
+**example-6：**
 
 ```go
 func main() {
@@ -163,7 +163,7 @@ func main() {
 
 不能通过编译。append() 的第二个参数不能直接使用 slice，需使用 … 操作符，将一个切片追加到另一个切片上：append(s1,s2…)。或者直接跟上元素，例如：append(s1,1,2,3)。
 
-**example-5：**
+**example-7：**
 
 ```go
 var(
@@ -184,7 +184,7 @@ func main() {
 3.只能在函数内部使用简短模式；
 ```
 
-**example-6：**
+**example-8：**
 
 结构体只能比较是否相等，不能比较大小。只有相同类型的结构体才能进行比较，结构体是否相同不仅与属性类型相关，还与属性在结构体中的顺序有关。
 
@@ -208,7 +208,7 @@ demo2 := struct {
 
 那什么是可比较的呢，常见的有 bool、数值型、字符、指针、数组等，像slice、map、函数等是不能比较的。
 
-**example-7：**
+**example-9：**
 
 ```go
 package main
@@ -234,7 +234,7 @@ func main() {
 
 第 10 行代码的赋值可以使用强制类型转化 var i1 MyInt1 = MyInt1(i).
 
-**example-8：**
+**example-10：**
 
 ```go
 const (
@@ -270,7 +270,7 @@ iota在const关键字出现时将被重置为0(const内部的第一行之前)，
 
 使用iota能简化定义，在定义枚举时很有用。
 
-**example-9：**
+**example-11：**
 
 init() 函数注意事项：
 
@@ -281,7 +281,7 @@ init() 函数注意事项：
 5. 一个包被引用多次，如 A import B,C import B,A import C，B 被引用多次，但 B 包只会初始化一次。
 6. 引入包，不可出现死循坏。即 A import B,B import A，这种情况编译失败。
 ![](/images/init-func.jpg)
-**example-10：**
+**example-12：**
 
 ```go
 func hello() []string {
@@ -304,7 +304,7 @@ func hello() []string {
 
 将 hello() 赋值给变量 h，而不是函数的返回值，所以输出 not nil
 
-**example-11：**
+**example-13：**
 
 ```go
 func GetValue() int {
@@ -332,7 +332,7 @@ func GetValue() int {
 
 类型断言，类型断言的语法：i.(type)，其中 i 是接口，type 是固定关键字，需要注意的是，只有接口类型才可以使用类型断言。
 
-**example-12：**
+**example-14：**
 
 ```go
 func hello(num ...int) {
@@ -354,7 +354,7 @@ func main() {
 
 可变函数
 
-**example-13：**
+**example-15：**
 
 ```go
 func main() {
@@ -370,7 +370,7 @@ func main() {
 
 删除 map 不存在的键值对时，不会报错，相当于没有任何作用；获取不存在的键值对时，返回值类型对应的零值，所以返回 0
 
-**example-14：**
+**example-16：**
 
 ```go
 func main() {
@@ -386,7 +386,7 @@ func main() {
 
 格式控制符%d表示输出十进制数字，+表示输出数值的原符号，不表示取反。
 
-**example-15：**
+**example-17：**
 
 ```go
 type People struct{}
@@ -419,7 +419,7 @@ func main() {
 
 结构体嵌套，在嵌套结构体中，People 称为内部类型，Teacher 称为外部类型；通过嵌套，内部类型的属性、方法，可以为外部类型所有，就好像是外部类型自己的一样（继承特性）。此外，外部类型还可以定义自己的属性和方法，甚至可以定义与内部相同的方法，这样内部类型的方法就会被“屏蔽”。
 
-**example-16：**
+**example-18：**
 
 ```go
 func hello(i int) {
@@ -438,7 +438,7 @@ func main() {
 
 执行 defer 语句的时候会保存一份副本，在实际调用 hello() 函数时传递的参数是副本5
 
-**example-17：**
+**example-19：**
 
 ```go
 func main() {
@@ -454,7 +454,7 @@ func main() {
 
 go语言中字符串是只读的
 
-**example-18：**
+**example-20：**
 
 ```go
 func main() {
@@ -508,7 +508,7 @@ b: len=2, cap=3
 
 c: len=1, cap=2
 
-**example-19：**
+**example-21：**
 
 ```go
 package main
